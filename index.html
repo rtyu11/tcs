@@ -3,70 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東洋カーゴサービス株式会社</title>
+    <title>TCS運送株式会社 | 物流を、もっと頼れる存在へ。</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="hero">
-        <div class="hero__overlay"></div>
-        <div class="hero__content container">
-            <div class="hero__badge">全国対応 24時間365日</div>
-            <h1>東洋カーゴサービス株式会社</h1>
-            <p>安全と信頼を第一に、皆さまの物流を支えるトラック輸送のプロフェッショナル。</p>
-            <a class="button button--primary" href="#contact">お問い合わせ</a>
+    <header class="site-header">
+        <div class="site-header__bar">
+            <div class="container site-header__inner">
+                <a class="site-header__logo" href="#top" aria-label="TCS運送株式会社 ホーム">
+                    <span class="logo-mark">TCS</span>
+                    <span class="logo-text">Toyo Cargo Service</span>
+                </a>
+                <nav class="site-nav" aria-label="メイン">
+                    <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="primary-nav">メニュー</button>
+                    <ul id="primary-nav" class="site-nav__links">
+                        <li><a href="#services">サービス</a></li>
+                        <li><a href="#strength">選ばれる理由</a></li>
+                        <li><a href="#fleet">車両紹介</a></li>
+                        <li><a href="#news">お知らせ</a></li>
+                        <li><a href="#company">会社情報</a></li>
+                        <li><a class="button button--primary" href="#contact">お問い合わせ</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
+
+        <section id="top" class="hero">
+            <div class="container hero__inner">
+                <div class="hero__lead">
+                    <p class="hero__kicker">24時間365日 全国対応</p>
+                    <h1>物流を、もっと頼れる存在へ。</h1>
+                    <p>創業30年の実績を誇る TCS 運送株式会社は、貸切輸送・定期便・緊急輸送までお客様の物流をトータルで支援します。</p>
+                    <div class="hero__actions">
+                        <a class="button button--primary" href="#contact">ご相談はこちら</a>
+                        <a class="button button--ghost" href="#services">サービスを詳しく見る</a>
+                    </div>
+                </div>
+                <dl class="hero__stats" aria-label="TCS運送の主な実績">
+                    <div>
+                        <dt>配送実績</dt>
+                        <dd><strong>年間12,000件</strong></dd>
+                    </div>
+                    <div>
+                        <dt>協力会社</dt>
+                        <dd><strong>全国120社</strong></dd>
+                    </div>
+                    <div>
+                        <dt>安全評価</dt>
+                        <dd><strong>Gマーク事業所</strong></dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
     </header>
 
-    <nav class="navbar">
-        <div class="container navbar__inner">
-            <div class="navbar__logo">Toyo Cargo Service</div>
-            <ul class="navbar__links">
-                <li><a href="#services">サービス</a></li>
-                <li><a href="#fleet">保有車両</a></li>
-                <li><a href="#strength">選ばれる理由</a></li>
-                <li><a href="#news">お知らせ</a></li>
-                <li><a href="#contact">会社情報・お問い合わせ</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <main>
-        <section id="services" class="section section--light">
+        <section id="services" class="section">
             <div class="container">
-                <h2>サービス</h2>
+                <h2 class="section__title">サービス</h2>
                 <div class="grid grid--three">
                     <article class="card">
-                        <h3>貸切輸送</h3>
-                        <p>大型・中型・小型トラックを最適に組み合わせ、全国への貸切輸送に対応します。時間指定や夜間配送もお任せください。</p>
+                        <h3>貸切チャーター輸送</h3>
+                        <p>大型・中型・小型トラックを組み合わせ、お客様の納品スケジュールに合わせた最適な輸送ルートを提案します。</p>
+                        <ul>
+                            <li>時間指定・夜間配送に柔軟対応</li>
+                            <li>機密性の高い貨物も安全輸送</li>
+                            <li>専任ディスパッチャーがサポート</li>
+                        </ul>
                     </article>
                     <article class="card">
                         <h3>定期便・ルート配送</h3>
-                        <p>食品・医療・工業製品など多様な業種に合わせたルート配送を提供。安定した品質でお客さまの物流を支えます。</p>
+                        <p>食品・医療・電子部品など業界特有の品質管理に対応し、安定した定期配送を実現します。</p>
+                        <ul>
+                            <li>温度管理が必要な輸送網を完備</li>
+                            <li>運行状況をリアルタイム共有</li>
+                            <li>繁忙期の増便もワンストップ対応</li>
+                        </ul>
                     </article>
                     <article class="card">
-                        <h3>倉庫・保管サービス</h3>
-                        <p>自社倉庫での一時保管、流通加工、在庫管理までワンストップでサポートし、物流コストの最適化を実現します。</p>
+                        <h3>倉庫・流通加工</h3>
+                        <p>都心・湾岸エリアの自社倉庫にて入出庫管理、仕分け、在庫管理までワンストップでサポートします。</p>
+                        <ul>
+                            <li>多温度帯保管・流通加工に対応</li>
+                            <li>WMS 連携で在庫を可視化</li>
+                            <li>EC フルフィルメントにも対応</li>
+                        </ul>
                     </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="fleet" class="section">
-            <div class="container">
-                <h2>保有車両</h2>
-                <div class="fleet">
-                    <div class="fleet__item">
-                        <h3>大型ウィング車</h3>
-                        <p>パレット積みに適した13t車。冷凍・冷蔵車も完備し、温度管理が必要な輸送にも対応します。</p>
-                    </div>
-                    <div class="fleet__item">
-                        <h3>中型ゲート車</h3>
-                        <p>ゲート付車両で、重量物や精密機器の積み降ろしもスムーズ。都市部での配送に強みがあります。</p>
-                    </div>
-                    <div class="fleet__item">
-                        <h3>小型バン・軽貨物</h3>
-                        <p>小回りの利く小型車で、スポット配送や緊急輸送にも迅速に対応。細やかなニーズにお応えします。</p>
-                    </div>
                 </div>
             </div>
         </section>
@@ -74,100 +96,138 @@
         <section id="strength" class="section section--accent">
             <div class="container strength">
                 <div class="strength__content">
-                    <h2>東洋カーゴサービスが選ばれる理由</h2>
-                    <ul>
-                        <li>創業30年、事故ゼロを目指す徹底した安全管理体制</li>
-                        <li>全車両にデジタコ・ドラレコを搭載しリアルタイムに運行管理</li>
-                        <li>全国100社を超える協力会社ネットワークで柔軟な対応が可能</li>
-                        <li>国土交通省認定の安全性優良事業所（Gマーク）を取得</li>
+                    <h2 class="section__title section__title--light">選ばれる理由</h2>
+                    <ul class="strength__list">
+                        <li>
+                            <h3>安全第一の運行管理</h3>
+                            <p>ドライバー教育とアルコールチェック、デジタコによる運行管理で事故ゼロを継続しています。</p>
+                        </li>
+                        <li>
+                            <h3>全国ネットワーク</h3>
+                            <p>120社の提携会社と連携し、全国どこでも迅速かつ柔軟な車両手配を実現。</p>
+                        </li>
+                        <li>
+                            <h3>物流DXの推進</h3>
+                            <p>お客様のシステムと連携し、輸送状況をリアルタイムに見える化。改善提案までサポートします。</p>
+                        </li>
                     </ul>
                 </div>
-                <div class="strength__cta">
-                    <p>物流に関するお困りごとは、まずはお気軽にご相談ください。</p>
-                    <a class="button button--secondary" href="#contact">物流相談を申し込む</a>
+                <aside class="strength__cta" aria-label="資料請求と相談">
+                    <p>物流改善の診断やコストシミュレーションなど、課題に合わせた提案資料をご用意しています。</p>
+                    <a class="button button--inverse" href="#contact">資料請求・ご相談</a>
+                </aside>
+            </div>
+        </section>
+
+        <section id="fleet" class="section section--light">
+            <div class="container">
+                <h2 class="section__title">車両紹介</h2>
+                <div class="fleet">
+                    <article class="fleet__item">
+                        <h3>大型ウイング車</h3>
+                        <p>パレット・ロールボックス対応。冷凍・冷蔵仕様車で食品輸送に対応します。</p>
+                        <dl>
+                            <div><dt>積載量</dt><dd>13t</dd></div>
+                            <div><dt>主な用途</dt><dd>食品・工業製品の長距離輸送</dd></div>
+                        </dl>
+                    </article>
+                    <article class="fleet__item">
+                        <h3>中型ゲート車</h3>
+                        <p>テールゲート付きで重量物や精密機器の搬出入も安全に実施できます。</p>
+                        <dl>
+                            <div><dt>積載量</dt><dd>4t</dd></div>
+                            <div><dt>主な用途</dt><dd>量販店・医療機関への配送</dd></div>
+                        </dl>
+                    </article>
+                    <article class="fleet__item">
+                        <h3>小型バン・軽貨物</h3>
+                        <p>都市部や緊急輸送に最適な小回りの利く車両で即日対応が可能です。</p>
+                        <dl>
+                            <div><dt>積載量</dt><dd>2t / 軽貨物</dd></div>
+                            <div><dt>主な用途</dt><dd>緊急便・スポット配送</dd></div>
+                        </dl>
+                    </article>
                 </div>
             </div>
         </section>
 
         <section id="news" class="section">
             <div class="container">
-                <h2>お知らせ</h2>
+                <h2 class="section__title">お知らせ</h2>
                 <div class="news">
                     <article class="news__item">
-                        <time datetime="2024-06-01">2024.06.01</time>
-                        <h3>新型大型冷凍車を導入しました</h3>
-                        <p>温度管理が必要な食品輸送のニーズ拡大に合わせ、最新の冷凍機を搭載した13tウィング車を増車しました。</p>
+                        <time datetime="2024-06-10">2024.06.10</time>
+                        <h3>物流DXセミナーで事例発表を行いました</h3>
+                        <p>IoT を活用した運行管理システムの導入効果について、業界向けセミナーで登壇しました。</p>
                     </article>
                     <article class="news__item">
-                        <time datetime="2024-04-15">2024.04.15</time>
-                        <h3>安全運転講習会を開催しました</h3>
-                        <p>全ドライバーを対象に事故防止に向けた講習を実施。ヒヤリハット事例の共有と再発防止策を徹底しました。</p>
+                        <time datetime="2024-05-20">2024.05.20</time>
+                        <h3>新型大型冷凍車を導入</h3>
+                        <p>温度帯ごとに管理できる最新機能を備えた大型車両を増車し、生鮮食品輸送の体制を強化しました。</p>
                     </article>
                     <article class="news__item">
-                        <time datetime="2024-03-05">2024.03.05</time>
-                        <h3>物流DXセミナーに登壇</h3>
-                        <p>最新の運行管理システム導入事例について、物流DXセミナーにて当社の取り組みを紹介しました。</p>
+                        <time datetime="2024-04-05">2024.04.05</time>
+                        <h3>安全運転講習会を開催</h3>
+                        <p>全ドライバーを対象に危険予知トレーニングとヒヤリハット共有を実施しました。</p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="section section--light">
-            <div class="container contact">
-                <div class="contact__info">
-                    <h2>会社情報</h2>
+        <section id="company" class="section section--light">
+            <div class="container company">
+                <div class="company__profile">
+                    <h2 class="section__title">会社情報</h2>
                     <dl>
-                        <div>
-                            <dt>会社名</dt>
-                            <dd>東洋カーゴサービス株式会社</dd>
-                        </div>
-                        <div>
-                            <dt>所在地</dt>
-                            <dd>〒135-0044 東京都江東区越中島1-2-3</dd>
-                        </div>
-                        <div>
-                            <dt>電話番号</dt>
-                            <dd>03-1234-5678（代表）</dd>
-                        </div>
-                        <div>
-                            <dt>受付時間</dt>
-                            <dd>平日 9:00〜18:00／緊急対応は24時間</dd>
-                        </div>
-                        <div>
-                            <dt>事業内容</dt>
-                            <dd>一般貨物自動車運送事業、倉庫業、物流コンサルティング</dd>
-                        </div>
+                        <div><dt>会社名</dt><dd>TCS運送株式会社（Toyo Cargo Service）</dd></div>
+                        <div><dt>所在地</dt><dd>〒135-0044 東京都江東区越中島1-2-3</dd></div>
+                        <div><dt>電話番号</dt><dd>03-1234-5678（代表）</dd></div>
+                        <div><dt>受付時間</dt><dd>平日 9:00〜18:00／緊急対応は 24 時間</dd></div>
+                        <div><dt>事業内容</dt><dd>一般貨物自動車運送事業・倉庫業・物流コンサルティング</dd></div>
+                        <div><dt>保有拠点</dt><dd>東京・名古屋・大阪・福岡</dd></div>
                     </dl>
                 </div>
-                <form class="contact__form">
-                    <h2>お問い合わせ</h2>
+                <div id="contact" class="company__contact" aria-label="お問い合わせフォーム">
+                    <h2 class="section__title">お問い合わせ</h2>
                     <p>輸送のご相談・お見積りは以下フォームまたはお電話で承ります。</p>
-                    <label for="name">お名前</label>
-                    <input id="name" name="name" type="text" placeholder="山田 太郎" required>
+                    <form class="contact-form">
+                        <label for="name">お名前</label>
+                        <input id="name" name="name" type="text" placeholder="山田 太郎" required>
 
-                    <label for="company">会社名</label>
-                    <input id="company" name="company" type="text" placeholder="株式会社〇〇">
+                        <label for="company-name">会社名</label>
+                        <input id="company-name" name="company" type="text" placeholder="株式会社〇〇">
 
-                    <label for="email">メールアドレス</label>
-                    <input id="email" name="email" type="email" placeholder="example@toyo-cargo.co.jp" required>
+                        <label for="email">メールアドレス</label>
+                        <input id="email" name="email" type="email" placeholder="example@tcs.co.jp" required>
 
-                    <label for="message">ご相談内容</label>
-                    <textarea id="message" name="message" rows="5" placeholder="ご依頼内容やご質問をご記入ください"></textarea>
+                        <label for="message">ご相談内容</label>
+                        <textarea id="message" name="message" rows="5" placeholder="ご依頼内容やご質問をご記入ください"></textarea>
 
-                    <button type="submit" class="button button--primary">送信する</button>
-                </form>
+                        <button type="submit" class="button button--primary">送信する</button>
+                    </form>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container footer__inner">
-            <p>&copy; 2024 Toyo Cargo Service Co., Ltd. All Rights Reserved.</p>
-            <div class="footer__links">
-                <a href="#">プライバシーポリシー</a>
-                <a href="#">採用情報</a>
-            </div>
+    <footer class="site-footer">
+        <div class="container site-footer__inner">
+            <small>© 2024 TCS運送株式会社</small>
+            <a href="mailto:info@tcs.co.jp">info@tcs.co.jp</a>
         </div>
     </footer>
+
+    <script>
+        const toggle = document.querySelector('.site-nav__toggle');
+        const nav = document.querySelector('.site-nav__links');
+        if (toggle && nav) {
+            document.documentElement.classList.add('js');
+            toggle.addEventListener('click', () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                nav.classList.toggle('site-nav__links--open');
+            });
+        }
+    </script>
 </body>
 </html>
