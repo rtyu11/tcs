@@ -274,7 +274,7 @@ a:focus-visible {
 .hero__media {
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, rgba(10, 26, 51, 0.92) 20%, rgba(10, 26, 51, 0.35) 100%), url("genspark-image (1).jpg") center/cover no-repeat;
+    background: linear-gradient(120deg, rgba(10, 26, 51, 0.92) 20%, rgba(10, 26, 51, 0.35) 100%), url("u4493356863_httpss.mj.runcLBPZk5gTpA_httpss.mj.runnSvTwPWZlbs_h_0539e714-1708-495f-9106-cdf070d31e44.png") center/cover no-repeat;
     transform: scale(1.05);
     z-index: -2;
 }
@@ -662,8 +662,19 @@ a:focus-visible {
 .fleet-card__media {
     width: 100%;
     border-radius: 16px;
-    min-height: 160px;
+    min-height: 180px;
+    overflow: hidden;
     background: linear-gradient(135deg, rgba(245, 180, 0, 0.8) 0%, rgba(10, 26, 51, 0.9) 100%);
+    aspect-ratio: 16 / 9;
+    margin: 0;
+    display: block;
+}
+
+.fleet-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .fleet-card__media--long {
@@ -987,20 +998,6 @@ a:focus-visible {
     font-size: 0.85rem;
 }
 
-.lang-notice {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    max-width: 320px;
-    padding: 1rem 1.25rem;
-    border-radius: 16px;
-    background: rgba(10, 26, 51, 0.95);
-    color: var(--color-white);
-    font-size: 0.9rem;
-    box-shadow: var(--shadow-soft);
-    z-index: 950;
-}
-
 .reveal {
     opacity: 0;
     transform: translateY(32px);
@@ -1177,10 +1174,6 @@ a:focus-visible {
         grid-template-columns: 1fr;
     }
 
-    .lang-notice {
-        left: 1rem;
-        right: 1rem;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
