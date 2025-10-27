@@ -1,8 +1,8 @@
 const ready = (callback) => {
-  if (document.readyState !== 'loading') {
-    callback();
-  } else {
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', callback);
+  } else {
+    callback();
   }
 };
 
@@ -11,171 +11,180 @@ document.documentElement.classList.add('js');
 ready(() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Mobile navigation toggle
-  const toggle = document.querySelector('.site-nav__toggle');
-  const nav = document.querySelector('.site-nav__links');
-  if (toggle && nav) {
-    toggle.addEventListener('click', () => {
-      const expanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!expanded));
-      nav.classList.toggle('site-nav__links--open');
+  const navToggle = document.querySelector('[data-nav-toggle]');
+  const navMenu = document.querySelector('[data-nav-menu]');
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      navMenu.classList.toggle('is-open', !expanded);
+    });
+
+    navMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (navMenu.classList.contains('is-open')) {
+          navMenu.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
     });
 
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 800 && nav.classList.contains('site-nav__links--open')) {
-        nav.classList.remove('site-nav__links--open');
-        toggle.setAttribute('aria-expanded', 'false');
+      if (window.innerWidth > 992 && navMenu.classList.contains('is-open')) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && navMenu.classList.contains('is-open')) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.focus();
       }
     });
   }
 
-  // Reveal on scroll animations
+  const scrollTopButton = document.querySelector('[data-scroll-top]');
+  if (scrollTopButton) {
+    scrollTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      });
+    });
+  }
+
   const revealTargets = document.querySelectorAll('.reveal');
   if (revealTargets.length) {
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-      revealTargets.forEach((target) => target.classList.add('is-visible'));
+      revealTargets.forEach((el) => el.classList.add('is-visible'));
     } else {
-      const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
             entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        rootMargin: '0px 0px -15% 0px',
-        threshold: 0.2,
-      });
+            obs.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.2, rootMargin: '0px 0px -10%' },
+      );
 
-      revealTargets.forEach((target) => revealObserver.observe(target));
+      revealTargets.forEach((el) => observer.observe(el));
     }
   }
 
-  // Hero counters
   const formatNumber = (value) => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
   const counters = document.querySelectorAll('[data-count]');
+
   if (counters.length) {
-    if (prefersReducedMotion) {
+    const animateCounter = (el) => {
+      const target = Number(el.dataset.count || 0);
+      if (!Number.isFinite(target)) return;
+      const prefix = el.dataset.countPrefix || '';
+      const suffix = el.dataset.countSuffix || '';
+      const duration = 1600;
+      const start = performance.now();
+
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(target * eased);
+        el.textContent = `${prefix}${formatNumber(current)}${suffix}`;
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        }
+      };
+
+      requestAnimationFrame(tick);
+    };
+
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
       counters.forEach((el) => {
-        const targetValue = parseInt(el.dataset.count || '0', 10);
-        if (!Number.isFinite(targetValue)) return;
+        const target = Number(el.dataset.count || el.textContent || 0);
+        if (!Number.isFinite(target)) return;
         const prefix = el.dataset.countPrefix || '';
         const suffix = el.dataset.countSuffix || '';
-        el.textContent = `${prefix}${formatNumber(targetValue)}${suffix}`;
+        el.textContent = `${prefix}${formatNumber(target)}${suffix}`;
       });
     } else {
-      const counterObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+      const counterObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            animateCounter(entry.target);
+            obs.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.6 },
+      );
 
-          const el = entry.target;
-          const targetValue = parseInt(el.dataset.count || '0', 10);
-          if (!Number.isFinite(targetValue) || el.dataset.animated) {
-            observer.unobserve(el);
-            return;
-          }
-
-          const prefix = el.dataset.countPrefix || '';
-          const suffix = el.dataset.countSuffix || '';
-          const duration = 1800;
-          const startTime = performance.now();
-
-          const step = (now) => {
-            const progress = Math.min((now - startTime) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(targetValue * eased);
-            el.textContent = `${prefix}${formatNumber(current)}${suffix}`;
-            if (progress < 1) {
-              requestAnimationFrame(step);
-            } else {
-              el.dataset.animated = 'true';
-              observer.unobserve(el);
-            }
-          };
-
-          requestAnimationFrame(step);
-        });
-      }, { threshold: 0.4 });
-
-      counters.forEach((counter) => counterObserver.observe(counter));
+      counters.forEach((el) => counterObserver.observe(el));
     }
   }
 
-  // News carousel
-  const carouselRoot = document.querySelector('[data-news-carousel]');
+  const carouselRoot = document.querySelector('[data-carousel]');
   if (carouselRoot) {
-    const highlight = carouselRoot.querySelector('.news__highlight');
-    const items = highlight ? Array.from(highlight.querySelectorAll('.news__item')) : [];
-    const prevBtn = carouselRoot.querySelector('[data-news-prev]');
-    const nextBtn = carouselRoot.querySelector('[data-news-next]');
-    const bulletsList = carouselRoot.querySelector('.news__bullets');
+    const track = carouselRoot.querySelector('[data-carousel-track]');
+    const slides = track ? Array.from(track.children) : [];
+    const prevButton = carouselRoot.querySelector('[data-carousel-prev]');
+    const nextButton = carouselRoot.querySelector('[data-carousel-next]');
+    const dotsContainer = carouselRoot.querySelector('[data-carousel-dots]');
     let activeIndex = 0;
-    let autoTimer;
-    const rotationDelay = 10000;
+    let autoTimer = null;
+    const autoDelay = 9000;
 
-    const updateActive = (index, manual = false) => {
-      if (!items.length) return;
-      const targetIndex = (index + items.length) % items.length;
-      if (targetIndex === activeIndex && !manual) return;
-
-      items.forEach((item, itemIndex) => {
-        const isActive = itemIndex === targetIndex;
-        item.classList.toggle('is-active', isActive);
-        item.setAttribute('aria-hidden', String(!isActive));
+    const updateDots = () => {
+      if (!dotsContainer) return;
+      dotsContainer.querySelectorAll('button').forEach((dot, index) => {
+        const isActive = index === activeIndex;
+        dot.setAttribute('aria-selected', String(isActive));
+        dot.tabIndex = isActive ? 0 : -1;
       });
+    };
 
-      const bulletButtons = bulletsList ? bulletsList.querySelectorAll('button[data-news-index]') : [];
-      bulletButtons.forEach((button) => {
-        const isActive = Number(button.dataset.newsIndex) === targetIndex;
-        button.setAttribute('aria-selected', String(isActive));
-        button.tabIndex = isActive ? 0 : -1;
+    const showSlide = (index, isManual = false) => {
+      if (!slides.length) return;
+      activeIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('is-active', slideIndex === activeIndex);
+        slide.setAttribute('aria-hidden', slideIndex === activeIndex ? 'false' : 'true');
       });
-
-      activeIndex = targetIndex;
-      restartAuto();
+      updateDots();
+      if (isManual) restartAuto();
     };
 
     const restartAuto = () => {
-      if (prefersReducedMotion || !items.length) return;
-      window.clearTimeout(autoTimer);
+      if (prefersReducedMotion || !slides.length) return;
+      clearTimeout(autoTimer);
       autoTimer = window.setTimeout(() => {
-        updateActive(activeIndex + 1);
-      }, rotationDelay);
+        showSlide(activeIndex + 1);
+      }, autoDelay);
     };
 
-    if (bulletsList) {
-      bulletsList.innerHTML = '';
-      items.forEach((item, index) => {
-        const title = item.querySelector('h3')?.textContent?.trim() || `ニュース${index + 1}`;
-        const panelId = item.id || `news-panel-${index}`;
-        const tabId = `news-tab-${index}`;
-        item.id = panelId;
-        item.setAttribute('role', item.getAttribute('role') || 'tabpanel');
-        item.setAttribute('aria-labelledby', tabId);
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.textContent = title.length > 10 ? `${title.slice(0, 10)}…` : title;
-        button.dataset.newsIndex = String(index);
-        button.setAttribute('role', 'tab');
-        button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
-        button.id = tabId;
-        button.setAttribute('aria-controls', panelId);
-        button.tabIndex = index === 0 ? 0 : -1;
-        button.addEventListener('click', () => updateActive(index, true));
-        button.addEventListener('focus', () => restartAuto());
-        const listItem = document.createElement('li');
-        listItem.appendChild(button);
-        bulletsList.appendChild(listItem);
+    if (dotsContainer && slides.length > 1) {
+      dotsContainer.innerHTML = '';
+      slides.forEach((_slide, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'testimonials__dot';
+        dot.setAttribute('aria-label', `事例 ${index + 1}`);
+        dot.dataset.index = String(index);
+        dot.addEventListener('click', () => showSlide(index, true));
+        const wrapper = document.createElement('li');
+        wrapper.appendChild(dot);
+        dotsContainer.appendChild(wrapper);
       });
     }
 
-    prevBtn?.addEventListener('click', () => updateActive(activeIndex - 1, true));
-    nextBtn?.addEventListener('click', () => updateActive(activeIndex + 1, true));
+    prevButton?.addEventListener('click', () => showSlide(activeIndex - 1, true));
+    nextButton?.addEventListener('click', () => showSlide(activeIndex + 1, true));
 
     carouselRoot.addEventListener('pointerenter', () => {
       if (autoTimer) {
-        window.clearTimeout(autoTimer);
+        clearTimeout(autoTimer);
       }
     });
 
@@ -183,67 +192,48 @@ ready(() => {
       restartAuto();
     });
 
-    updateActive(0);
+    showSlide(0);
+    restartAuto();
   }
 
-  // Insights board mock data
-  const insightsBoard = document.querySelector('[data-insights-board]');
-  if (insightsBoard) {
-    const now = new Date();
-    const formatTime = (minutesFromNow) => {
-      const date = new Date(now.getTime() + minutesFromNow * 60000);
-      return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')} 発`;
-    };
+  const langToggle = document.querySelector('[data-lang-toggle]');
+  const langNotice = document.querySelector('[data-lang-notice]');
+  let langNoticeTimer = null;
 
-    const dataset = [
-      { name: '東京本社', departIn: -15, load: 82, status: '通常運行', badge: 'ok' },
-      { name: '名古屋支店', departIn: 5, load: 96, status: '増便対応', badge: 'alert' },
-      { name: '大阪ハブ', departIn: 20, load: 74, status: '余裕あり', badge: 'ok' },
-      { name: '福岡物流センター', departIn: -5, load: 88, status: '積み合わせ可', badge: 'warning' },
-    ];
-
-    const buildList = dataset.map((item) => {
-      const badgeClass = `insights__badge insights__badge--${item.badge}`;
-      const departLabel = item.departIn >= 0 ? `出発予定 ${formatTime(item.departIn)}` : `出発済 ${formatTime(item.departIn)}`;
-      const loadLabel = `積載率 ${item.load}%`;
-      const capacityLabel = item.load >= 95 ? '残り1台' : item.load >= 85 ? '残り2台' : '余裕あり';
-
-      return `
-        <li>
-          <span>${item.name}<small>${departLabel}</small></span>
-          <span>${loadLabel}<small>${capacityLabel}</small></span>
-          <span class="${badgeClass}">${item.status}</span>
-        </li>
-      `;
-    }).join('');
-
-    insightsBoard.innerHTML = `
-      <p>各拠点の稼働状況は AI 配車システムと連携して毎朝 6 時に更新されます。</p>
-      <ul>${buildList}</ul>
-    `;
+  if (langToggle) {
+    langToggle.addEventListener('click', () => {
+      const pressed = langToggle.getAttribute('aria-pressed') === 'true';
+      langToggle.setAttribute('aria-pressed', String(!pressed));
+      if (!langNotice) return;
+      langNotice.hidden = false;
+      window.clearTimeout(langNoticeTimer);
+      langNoticeTimer = window.setTimeout(() => {
+        langNotice.hidden = true;
+      }, 6000);
+    });
   }
 
-  // Contact form feedback (mock submission)
   const contactForm = document.querySelector('[data-contact-form]');
   if (contactForm) {
-    const feedback = contactForm.querySelector('.contact-form__feedback');
+    const feedback = contactForm.querySelector('[data-feedback]');
     contactForm.addEventListener('submit', (event) => {
       event.preventDefault();
       if (!contactForm.checkValidity()) {
         contactForm.reportValidity();
         if (feedback) {
           feedback.textContent = '入力内容をご確認ください。必須項目が未入力です。';
-          feedback.classList.remove('is-success');
           feedback.classList.add('is-error');
+          feedback.classList.remove('is-success');
         }
         return;
       }
 
       if (feedback) {
-        feedback.textContent = '送信が完了しました。担当者より 1 営業日以内にご連絡いたします。';
-        feedback.classList.remove('is-error');
+        feedback.textContent = '送信が完了しました。担当者より1営業日以内にご連絡いたします。';
         feedback.classList.add('is-success');
+        feedback.classList.remove('is-error');
       }
+
       contactForm.reset();
     });
   }
